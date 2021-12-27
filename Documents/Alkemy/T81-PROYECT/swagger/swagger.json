@@ -1,0 +1,2126 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "ONG-Api-Alkemy",
+    "description": "api for Ong Alkemy, documentation of endpoints and their middlewares",
+    "version": "1.0.",
+    "contact": {
+      "email": "diegosalonia@gmail.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Development"
+    }
+  ],
+  "tags": [
+    {
+      "name": "auth",
+      "description": "Operations about login and register."
+    },
+    {
+      "name": "category",
+      "description": "Operations about category."
+    }
+   
+  ],
+  "paths": {
+    "/auth/login": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "Login User",
+        "description": "login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Login"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A JSON Array of category.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LoginAndRegister"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "A JSON Array of user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "description": "User's last name.",
+                      "type": "string",
+                      "example": "Unauthorized"
+                    },
+                    "msg": {
+                      "description": "User's last name.",
+                      "type": "string",
+                      "example": "Incorrect email or password."
+                    },
+                    "ok": {
+                      "description": "User's last name.",
+                      "type": "boolean",
+                      "example": false
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error message in JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorDB"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "User's Register",
+        "description": "register",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Register"
+              }
+            }
+          }
+        },"responses": {
+          "200": {
+            "description": "A JSON Array of category.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LoginAndRegister"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "A JSON Array of category.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "description": "User's last name.",
+                      "type": "string",
+                      "example": "Unauthorized"
+                    },
+                    "msg": {
+                      "description": "User's last name.",
+                      "type": "string",
+                      "example": "Email is already registered"
+                    },
+                    "ok": {
+                      "description": "User's last name.",
+                      "type": "boolean",
+                      "example": false
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400":{
+            "description": "A JSON Array of category.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors":{
+                      "type":"object",
+                      "properties":{
+                        "param": {
+                          "description": "User's last name.",
+                          "type": "string",
+                          "example": "password"
+                        },
+                        "msg": {
+                          "description": "User's last name.",
+                          "type": "string",
+                          "example": "Password is required."
+                        },
+                        "location": {
+                          "description": "User's last name.",
+                          "type": "string",
+                          "example": "body"
+                        }
+                      }
+                    }                  
+                  }                  
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error message in JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorDB"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/categories/": {
+      "get": {
+        "tags": ["category"],
+        "summary": "Return a list of existing category",
+        "description": "# Service to retrieve all registered category.",
+        "requestBody": {
+          "data": [
+            {
+              "name": "name",
+              "in": "query",
+              "description": "name of category.",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "descrption",
+              "in": "query",
+              "description": "descrption of category.",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "image",
+              "in": "query",
+              "description": "An image can be added to the category.",
+              "required": false,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "in": "query",
+              "name": "options[limit]",
+              "description": "The limit of categories displayed (Use it for pagination).",
+              "required": false,
+              "Schema": {
+                "type": "string"
+              }
+            },
+            {
+              "in": "query",
+              "name": "options[offset]",
+              "description": "index to start the search of categories (Use it for pagination).",
+              "required": false,
+              "Schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "status": "",
+          "message": "message to describe the response"
+        },
+        "responses": {
+          "200": {
+            "description": "A JSON Array of category.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/category"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error message in JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorDB"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["category"],
+        "summary": "Create a new Category.",
+        "description": "Here a new category is published",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CategoriesCreateAndUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Category created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/category"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error message in JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error message in JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorDB"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/categories/{:id}": {
+      "get": {
+        "security": [
+          {
+            "Api_Key": []
+          }
+        ],
+        "tags": ["category"],
+        "summary": "Returns a category called with its respective ID.",
+        "description": "This is the endpoint in charge of looking for a category by its Id, this will only bring the one that matches the category with the Id provided",
+        "parameters": [
+          {
+            "name": ":id",
+            "in": "path",
+            "description": "The identification of the category you want to see.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A JSON Array of categories.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/category"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error message in JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error message in JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorDB"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "security": [
+          {
+            "Api_Key": []
+          }
+        ],
+        "tags": ["category"],
+        "summary": "Update an existing category by providing the correct id.",
+        "description": "This is the endpoint in charge of making an update in the selected category, it needs an Id and the data in the body that is going to change",
+        "parameters": [
+          {
+            "name": ":id",
+            "in": "path",
+            "description": "The id of the category that needs to be updated.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CategoriesCreateAndUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Category updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/category"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error message in JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error message in JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorDB"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "security": [
+          {
+            "Api_Key": []
+          }
+        ],
+        "tags": ["category"],
+        "summary": "Delete an existing category by providing the correct id.",
+        "description": "This is the endpoint in charge of deleting the selected category, it needs the Id of the category to be deleted",
+        "parameters": [
+          {
+            "name": ":id",
+            "in": "path",
+            "description": "The id of the category that needs to be deleted.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Category deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/category"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error message in JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error message in JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorDB"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/members/": {
+      "get": {
+        "tags": ["member"],
+        "summary": "Return a list of existing members",
+        "description": "# Service to retrieve all registered members.",
+        "requestBody": {
+          "data": [
+            {
+              "name": "name",
+              "in": "query",
+              "description": "name of members.",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "facebookUrl",
+              "in": "query",
+              "description": "facebook url.",
+              "required": false,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "instagramUrl",
+              "in": "query",
+              "description": "instagram url.",
+              "required": false,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "linkedinUrl",
+              "in": "query",
+              "description": "linkedin url.",
+              "required": false,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "image",
+              "in": "query",
+              "description": "An image can be added to members.",
+              "required": false,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "in": "query",
+              "name": "options[limit]",
+              "description": "The limit of members displayed (Use it for pagination).",
+              "required": false,
+              "Schema": {
+                "type": "string"
+              }
+            },
+            {
+              "in": "query",
+              "name": "options[offset]",
+              "description": "index to start the search of members (Use it for pagination).",
+              "required": false,
+              "Schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "status": "",
+          "message": "message to describe the response"
+        },
+        "responses": {
+          "200": {
+            "description": "A JSON Array of members.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/members"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error message in JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorDB"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "security": [
+          {
+            "Api_Key": []
+          }
+        ],
+        "tags": ["member"],
+        "summary": "Create a new member.",
+        "description": "New member joined the organization.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MembersCreateAndUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "member created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/members"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error message in JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error message in JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorDB"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+      "/members/pagination": {
+        "get": {
+          "tags": ["member"],
+          "summary": "Return a list of existing members",
+          "description": "# returns up to 10 members per page.",
+          "parameters":[  
+            {  
+               "name":"page",
+               "in":"query",
+               "description":"members page number",
+               "required":true,
+               "type":"int"
+            
+          }],
+          
+          "requestBody": {
+            "data": [
+              {
+                "name": "name",
+                "in": "query",
+                "description": "name of members.",
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              },
+              {
+                "name": "facebookUrl",
+                "in": "query",
+                "description": "Facebook url.",
+                "required": false,
+                "schema": {
+                  "type": "string"
+                }
+              },
+              {
+                "name": "instagramUrl",
+                "in": "query",
+                "description": "Instagram url.",
+                "required": false,
+                "schema": {
+                  "type": "string"
+                }
+              },
+              {
+                "name": "linkedinUrl",
+                "in": "query",
+                "description": "Linkedin Url.",
+                "required": false,
+                "schema": {
+                  "type": "string"
+                }
+              },
+              {
+                "name": "image",
+                "in": "query",
+                "description": "An image can be added to the member.",
+                "required": false,
+                "schema": {
+                  "type": "string"
+                }
+              },
+              {
+                "name": "description",
+                "in": "query",
+                "description": "description of members.",
+                "required": false,
+                "schema": {
+                  "type": "string"
+                }
+              },
+              {
+                "in": "query",
+                "name": "options[limit]",
+                "description": "The limit of members displayed (Use it for pagination).",
+                "required": false,
+                "Schema": {
+                  "type": "string"
+                }
+              },
+              {
+                "in": "query",
+                "name": "options[offset]",
+                "description": "index to start the search of members (Use it for pagination).",
+                "required": false,
+                "Schema": {
+                  "type": "string"
+                }
+              }
+            ],
+            "status": "",
+            "message": "message to describe the response"
+          },
+          "responses": {
+            "200": {
+              "description": "A JSON Array of members.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/members"
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Error message in JSON",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "$ref": "#/components/schemas/ErrorDB"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/members/{:id}": {
+        "get": {
+          "security": [
+            {
+              "Api_Key": []
+            }
+          ],
+          "tags": ["member"],
+          "summary": "Returns a member called with its respective ID.",
+          "description": "This is the endpoint in charge of looking for a member by its Id, this will only bring the one that matches the member with the Id provided",
+          "parameters": [
+            {
+              "name": ":id",
+              "in": "path",
+              "description": "The identification of the member you want to see.",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "A JSON Array of members.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/members"
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Error message in JSON",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "$ref": "#/components/schemas/RequestError"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Error message in JSON",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "$ref": "#/components/schemas/ErrorDB"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "put": {
+          "security": [
+            {
+              "Api_Key": []
+            }
+          ],
+          "tags": ["member"],
+          "summary": "Update an existing member by providing the correct id.",
+          "description": "This is the endpoint in charge of making an update in the selected member, it needs an Id and the data in the body that is going to change",
+          "parameters": [
+            {
+              "name": ":id",
+              "in": "path",
+              "description": "The id of the member that needs to be updated.",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MembersCreateAndUpdate"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Member updated",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "$ref": "#/components/schemas/members"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Error message in JSON",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "$ref": "#/components/schemas/RequestError"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Error message in JSON",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "$ref": "#/components/schemas/ErrorDB"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "delete": {
+          "security": [
+            {
+              "Api_Key": []
+            }
+          ],
+          "tags": ["member"],
+          "summary": "Delete an existing member by providing the correct id.",
+          "description": "This is the endpoint in charge of deleting the selected member, it needs the Id of the member to be deleted",
+          "parameters": [
+            {
+              "name": ":id",
+              "in": "path",
+              "description": "The id of the member that needs to be deleted.",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Member deleted",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "$ref": "#/components/schemas/member"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Error message in JSON",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "$ref": "#/components/schemas/RequestError"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Error message in JSON",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "$ref": "#/components/schemas/ErrorDB"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+      "security": [
+        {
+          "Api_Key": []
+        }
+      ],
+      "tags": ["news"],
+      "summary": "Create a new news.",
+      "description": "Here a new news is published",
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/NewsCreateAndUpdate"
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "description": "news created successfully.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/news"
+                }
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Error message in JSON",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/RequestError"
+              }
+            }
+          }
+        },
+        "500": {
+          "description": "Error message in JSON",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/ErrorDB"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/news/": {
+      "get": {
+        "tags": ["news"],
+        "summary": "Return a list of existing news",
+        "description": "# Service to retrieve all registered news.",
+        "requestBody": {
+          "data": [
+            {
+              "name": "name",
+              "in": "query",
+              "description": "name of news.",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "descrption",
+              "in": "query",
+              "description": "descrption of news.",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "image",
+              "in": "query",
+              "description": "An image can be added to the news.",
+              "required": false,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "in": "query",
+              "name": "options[limit]",
+              "description": "The limit of categories displayed (Use it for pagination).",
+              "required": false,
+              "Schema": {
+                "type": "string"
+              }
+            },
+            {
+              "in": "query",
+              "name": "options[offset]",
+              "description": "index to start the search of categories (Use it for pagination).",
+              "required": false,
+              "Schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "status": "",
+          "message": "message to describe the response"
+        },
+        "responses": {
+          "200": {
+            "description": "A JSON Array of news.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/news"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error message in JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorDB"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "security": [
+          {
+            "Api_Key": []
+          }
+        ],
+        "tags": ["news"],
+        "summary": "Create a new news.",
+        "description": "Here a new news is published",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewsCreateAndUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "news created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/news"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error message in JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error message in JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorDB"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/news/{:id}": {
+      "get": {
+        "security": [
+          {
+            "Api_Key": []
+          }
+        ],
+        "tags": ["news"],
+        "summary": "Returns a news called with its respective ID.",
+        "description": "This is the endpoint in charge of looking for a news by its Id, this will only bring the one that matches the news with the Id provided",
+        "parameters": [
+          {
+            "name": ":id",
+            "in": "path",
+            "description": "The identification of the news you want to see.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A JSON Array of news.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/news"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error message in JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error message in JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorDB"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "security": [
+          {
+            "Api_Key": []
+          }
+        ],
+        "tags": ["news"],
+        "summary": "Update an existing news by providing the correct id.",
+        "description": "This is the endpoint in charge of making an update in the selected news, it needs an Id and the data in the body that is going to change",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The id of the news that needs to be updated.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewsCreateAndUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "news updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/news"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error message in JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error message in JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorDB"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "security": [
+          {
+            "Api_Key": []
+          }
+        ],
+        "tags": ["news"],
+        "summary": "Delete an existing news by providing the correct id.",
+        "description": "This is the endpoint in charge of deleting the selected news, it needs the Id of the news to be deleted",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The id of the news that needs to be deleted.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "news deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/news"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error message in JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error message in JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorDB"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/news/pagination": {
+      "get": {
+        "tags": ["news"],
+        "summary": "Return a list of existing news",
+        "description": "# returns up to 10 news per page.",
+        "parameters":[  
+          {  
+             "name":"page",
+             "in":"query",
+             "description":"news page number",
+             "required":true,
+             "type":"string"
+          }],
+        
+        "requestBody": {
+          "data": [
+            {
+              "name": "name",
+              "in": "query",
+              "description": "name of news.",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "descrption",
+              "in": "query",
+              "description": "descrption of news.",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "image",
+              "in": "query",
+              "description": "An image can be added to the news.",
+              "required": false,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "in": "query",
+              "name": "options[limit]",
+              "description": "The limit of categories displayed (Use it for pagination).",
+              "required": false,
+              "Schema": {
+                "type": "string"
+              }
+            },
+            {
+              "in": "query",
+              "name": "options[offset]",
+              "description": "index to start the search of categories (Use it for pagination).",
+              "required": false,
+              "Schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "status": "",
+          "message": "message to describe the response"
+        },
+        "responses": {
+          "200": {
+            "description": "A JSON Array of news.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/news"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error message in JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorDB"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+    "/testimonials/": {
+     "post": {
+      "security": [
+        {
+          "Api_Key": []
+        }
+      ],
+      "tags": ["testimonial"],
+      "summary": "Create a new testimonial.",
+      "description": "New testimonial joined the organization.",
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/TestimonialsCreateAndUpdate"
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "description": "testimonial created successfully.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/testimonials"
+                }
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Error message in JSON",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/RequestError"
+              }
+            }
+          }
+        },
+        "500": {
+          "description": "Error message in JSON",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/ErrorDB"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+    "/testimonials/pagination": {
+      "get": {
+        "tags": ["testimonial"],
+        "summary": "Return a list of existing testimonials",
+        "description": "# returns up to 10 testimonials per page.",
+        "parameters":[  
+          {  
+             "name":"page",
+             "in":"query",
+             "description":"testimonials page number",
+             "required":true,
+             "type":"int"
+          
+        }],
+        
+        "requestBody": {
+          "data": [
+            {
+              "name": "name",
+              "in": "query",
+              "description": "name of testimonials.",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "image",
+              "in": "query",
+              "description": "An image can be added to the testimonial.",
+              "required": false,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "content",
+              "in": "query",
+              "content": "content of testimonial.",
+              "required": false,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "in": "query",
+              "name": "options[limit]",
+              "description": "The limit of testimonials displayed (Use it for pagination).",
+              "required": false,
+              "Schema": {
+                "type": "string"
+              }
+            },
+            {
+              "in": "query",
+              "name": "options[offset]",
+              "description": "index to start the search of testimonial (Use it for pagination).",
+              "required": false,
+              "Schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "status": "",
+          "message": "message to describe the response"
+        },
+        "responses": {
+          "200": {
+            "description": "A JSON Array of testimonials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/testimonials"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error message in JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorDB"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/testimonials/{:id}": {
+      "get": {
+        "security": [
+          {
+            "Api_Key": []
+          }
+        ],
+        "tags": ["testimonial"],
+        "summary": "Returns a testimonial called with its respective ID.",
+        "description": "This is the endpoint in charge of looking for a testimonial by its Id, this will only bring the one that matches the testimonial with the Id provided",
+        "parameters": [
+          {
+            "name": ":id",
+            "in": "path",
+            "description": "The identification of the testimonial you want to see.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A JSON Array of testimonials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/testimonials"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error message in JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error message in JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorDB"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "security": [
+          {
+            "Api_Key": []
+          }
+        ],
+        "tags": ["testimonial"],
+        "summary": "Update an existing testimonial by providing the correct id.",
+        "description": "This is the endpoint in charge of making an update in the selected testimonial, it needs an Id and the data in the body that is going to change",
+        "parameters": [
+          {
+            "name": ":id",
+            "in": "path",
+            "description": "The id of the testimonial that needs to be updated.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/testimonialsCreateAndUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "testimonial updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/testimonials"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error message in JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error message in JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorDB"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "security": [
+          {
+            "Api_Key": []
+          }
+        ],
+        "tags": ["testimonial"],
+        "summary": "Delete an existing testimonial by providing the correct id.",
+        "description": "This is the endpoint in charge of deleting the selected testimonial, it needs the Id of the testimonial to be deleted",
+        "parameters": [
+          {
+            "name": ":id",
+            "in": "path",
+            "description": "The id of the testimonial that needs to be deleted.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Testimonial deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/testimonial"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error message in JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error message in JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorDB"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    
+  
+
+  "components": {
+    "securitySchemes": {
+      "Api_Key": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header"
+      }
+  },
+    "schemas": {
+      "User": {
+        "required": ["firstName", "lastName", "email", "password", "roleId"],
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "description": "User's first name.",
+            "type": "string",
+            "example": "TestUserAdmin1"
+          },
+          "lastName": {
+            "description": "User's last name.",
+            "type": "string",
+            "example": "Demo"
+          },
+          "email": {
+            "description": "User's email.",
+            "type": "string",
+            "example": "testUserAdmin1@test.com"
+          },
+          "password": {
+            "description": "User's password, the password must include one lowercase character, one uppercase character, a number, and a special character.",
+            "type": "string",
+            "example": "bugHunteRsNodeGroup81Alkemy123!"
+          },
+          "image": {
+            "description": "Image for the activity.",
+            "type": "string"
+          },
+          "roleId": {
+            "description": "User's Role",
+            "type": "integer"
+          },
+          "deletedAt": {
+            "description": "Date of elimination of the activity.",
+            "type": "date",
+            "example": "YY-MM-DD -> 1989-12-31"
+          },
+          "createdAt": {
+            "description": "date of the activity creation.",
+            "type": "date",
+            "example": "YY-MM-DD -> 1989-12-31"
+          },
+          "updatedAt": {
+            "description": "date of the activity update.",
+            "type": "date",
+            "example": "YY-MM-DD -> 1989-12-31"
+          }
+        }
+      },
+      "Login": {
+        "required": ["email", "password"],
+        "type": "object",
+        "properties": {
+          "email": {
+            "description": "User's email.",
+            "type": "string",
+            "example": "testUserAdmin1@test.com"
+          },
+          "password": {
+            "description": "User's password.",
+            "type": "string",
+            "example": "bugHunteRsNodeGroup81Alkemy123!"
+          }
+        }
+      },
+      "Register": {
+        "required": ["firstName", "lastName", "email", "password", "roleId"],
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "description": "User's first name.",
+            "type": "string",
+            "example": "TestUserAdmin1"
+          },
+          "lastName": {
+            "description": "User's last name.",
+            "type": "string",
+            "example": "Demo"
+          },
+          "email": {
+            "description": "User's email.",
+            "type": "string",
+            "example": "testUserAdmin1@test.com"
+          },
+          "password": {
+            "description": "User's password, the password must include one lowercase character, one uppercase character, a number, and a special character.",
+            "type": "string",
+            "example": "bugHunteRsNodeGroup81Alkemy123!"
+          },
+          "image": {
+            "description": "Image for the activity.",
+            "type": "string"
+          },
+          "roleId": {
+            "description": "User's Role",
+            "type": "integer"
+          }
+        }
+      },
+      "LoginAndRegister": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "type": "object",
+            "$ref": "#/components/schemas/User"
+          },
+          "token": {
+            "description": "Autorization token",
+            "type": "string",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImZpcnN0TmFtZSI6IlRlc3RVc2VyQWRtaW4xIiwibGFzdE5hbWUiOiJEZW1vIiwiZW1haWwiOiJ0ZXN0VXNlckFkbWluMUB0ZXN0LmNvbSIsImltYWdlIjoiaHR0cHM6Ly93d3cuZGVzaWduZXZvLmNvbS9yZXMvdGVtcGxhdGVzL3RodW1iX3NtYWxsL2NvbG9yZnVsLWhhbmQtYW5kLXdhcm0tY29tbXVuaXR5LnBuZyIsInBhc3N3b3JkIjoiJDJhJDEwJFN3NHRsWDFKbzJmWURiYUNpakZ4SXVoc0JwTlVMVUxZSEdkdUxnbTFSci9oTWhnYXdxTnBpIiwicm9sZUlkIjoxLCJpYXQiOjE2MzU1MzEyOTMsImV4cCI6MTYzNjEzNjA5M30.r4SGsTAsQxda5cMpowdK5nDp5SMI5yhXROtV_Ku3jOc"
+          }
+        }
+      },
+      "category": {
+        "required": ["id"],
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "Name of the category",
+            "type": "string",
+            "example": "Recreation category."
+          },
+          "description": {
+            "description": "category description",
+            "type": "string",
+            "example": "First category search"
+          },
+          "image": {
+            "description": "Image for the category.",
+            "type": "string",
+            "example": "https://ecologiahoy.net/wp-content/uploads/2020/02/paisajes-natutrales-ecologiaverde-1.jpg"
+          },
+          "deletedAt": {
+            "description": "Date of elimination of the category.",
+            "type": "date",
+            "example": "YY-MM-DD -> 1989-12-31"
+          },
+          "createdAt": {
+            "description": "date of the category creation.",
+            "type": "date",
+            "example": "YY-MM-DD -> 1989-12-31"
+          },
+          "updatedAt": {
+            "description": "date of the category update.",
+            "type": "date",
+            "example": "YY-MM-DD -> 1989-12-31"
+          }
+        }
+      },
+      "CategoriesCreateAndUpdate": {
+        "required": ["id"],
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "The category name.",
+            "type": "string",
+            "example": "Categoria 1"
+          },
+          "description": {
+            "description": "The description of the category.",
+            "type": "string",
+            "example": "The first category that we are going to post"
+          },
+          "image": {
+            "description": "The image for the category.",
+            "type": "string",
+            "example": "https://www.lluiscodina.com/wp-content/uploads/2019/05/navegacion-taxonomias-sitio-web.png"
+          }
+        }
+      },
+      "testimonialsCreateAndUpdate": {
+        "required": ["id"],
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": " Member name.",
+            "type": "string",
+            "example": "Member 1"
+          },
+          "description": {
+            "description": "The description of the member.",
+            "type": "string",
+            "example": "The first member that joined us"
+          },
+          "image": {
+            "description": "The image for the member.",
+            "type": "string",
+            "example": "https://miro.medium.com/max/700/1*8oVLfxh6Oi5h1uzfsldx6g.jpeg"
+          }
+        }
+      },
+      "RequestError": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "description": "Error code",
+            "type": "integer",
+            "example": "400"
+          },
+          "message": {
+            "description": "Error message",
+            "type": "string",
+            "example": "Validation Errors: Invalid id, etc"
+          }
+        }
+      },
+      "ErrorDB": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "description": "Error code",
+            "type": "integer",
+            "example": "500"
+          },
+          "message": {
+            "description": "Error message",
+            "type": "string",
+            "example": "Internal Server Error, try again later"
+          }
+        }
+      },
+      "news": {
+        "required": ["id"],
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "Name of the novelty",
+            "type": "string",
+            "example": "The latest news of the day .. ."
+          },
+          "content": {
+            "description": "news content",
+            "type": "string",
+            "example": "in the last hours different events happened"
+          },
+ 
+          "image": {
+            "description": "Image for the news.",
+            "type": "string",
+            "example": "https://ecologiahoy.net/wp-content/uploads/2020/02/paisajes-natutrales-ecologiaverde-1.jpg"
+          },
+          "deletedAt": {
+            "description": "Date of elimination of the news.",
+            "type": "date",
+            "example": "YY-MM-DD -> 1989-12-31"
+          },
+          "createdAt": {
+            "description": "date of the news creation.",
+            "type": "date",
+            "example": "YY-MM-DD -> 1989-12-31"
+          },
+          "updatedAt": {
+            "description": "date of the news update.",
+            "type": "date",
+            "example": "YY-MM-DD -> 1989-12-31"
+          }
+        }
+      },
+      "members": {
+        "required": ["id"],
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "Name of the member",
+            "type": "string",
+            "example": "John Member"
+          },
+          "facebookUrl": {
+            "description": "Facebook url",
+            "type": "string",
+            "example": "www.facebook.com/memberUrl"
+          },
+          "instagramUrl": {
+            "description": "Instagram url",
+            "type": "string",
+            "example": "www.instagram.com/memberUrl"
+          },
+          "linkedinUrl": {
+            "description": "Linkedin url",
+            "type": "string",
+            "example": "www.linkedin.com/memberUrl"
+          },
+          "description": {
+            "description": "Description of the member",
+            "type": "string",
+            "example": "John Member is an active user of our community"
+          },
+ 
+          "image": {
+            "description": "Image of the member.",
+            "type": "string",
+            "example": "https://miro.medium.com/max/700/1*8oVLfxh6Oi5h1uzfsldx6g.jpeg"
+          },
+          "deletedAt": {
+            "description": "Date of elimination of the member.",
+            "type": "date",
+            "example": "YY-MM-DD -> 1989-12-31"
+          },
+          "createdAt": {
+            "description": "date of the member creation.",
+            "type": "date",
+            "example": "YY-MM-DD -> 1989-12-31"
+          },
+          "updatedAt": {
+            "description": "date of the member update.",
+            "type": "date",
+            "example": "YY-MM-DD -> 1989-12-31"
+          }
+        }
+      },
+      "NewsCreateAndUpdate": {
+        "required": ["id"],
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "The news name.",
+            "type": "string",
+            "example": "news 1"
+          },
+          "content": {
+            "description": "The description of the category.",
+            "type": "string",
+            "example": "The first news that we are going to post"
+          },
+          "image": {
+            "description": "The image for the news.",
+            "type": "string",
+            "example": "https://www.lluiscodina.com/wp-content/uploads/2019/05/navegacion-taxonomias-sitio-web.png"
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
